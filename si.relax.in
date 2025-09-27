@@ -1,39 +1,41 @@
+!! Script  for inner and outer for to do the scf 
+
 &control
-    calculation    = 'relax'
-    prefix         = 'si'
-    pseudo_dir      =  './pseudo/'
-    outdir          =  './tmp/'
-    forc_conv_thr  = 1.0d-4
-    nstep          = 100           
-    verbosity      = 'high'
-    wf_collect     = .true.
-    disk_io        = 'low'
+    calculation    = 'relax'          ! Perform a structural relaxation (optimize atomic positions)
+    prefix         = 'si'             ! Prefix for output files
+    pseudo_dir     = './pseudo/'      ! Directory where pseudopotential files are stored
+    outdir         = './tmp/'         ! Directory for temporary calculation files
+    forc_conv_thr  = 1.0d-4           ! Convergence threshold for forces (Ry/Bohr)
+    nstep          = 100              ! Maximum number of ionic steps for relaxation
+    verbosity      = 'high'           ! Level of output detail
+    wf_collect     = .true.           ! Collect wavefunctions for post-processing
+    disk_io        = 'low'            ! Reduce disk usage during calculation
 /
 &system
-    ibrav          = 2
-    celldm(1)      = 10.26
-    nat            = 2
-    ntyp           = 1
-    ecutwfc        = 30.0
-    ecutrho        = 240.0          
-    nbnd           = 20
+    ibrav          = 2                ! Bravais lattice index (2 = FCC cubic)
+    celldm(1)      = 10.26            ! Lattice parameter in atomic units (Bohr)
+    nat            = 2                ! Number of atoms in the unit cell
+    ntyp           = 1                ! Number of atomic species
+    ecutwfc        = 30.0             ! Plane-wave cutoff energy for wavefunctions (Ry)
+    ecutrho        = 240.0            ! Plane-wave cutoff energy for charge density (Ry)
+    nbnd           = 20               ! Number of electronic bands to compute
 /
 &electrons
-    conv_thr       = 1.0d-8          
-    mixing_mode    = 'plain'
-    mixing_beta    = 0.4
-    electron_maxstep = 100
+    conv_thr       = 1.0d-8           ! Convergence threshold for electronic self-consistency
+    mixing_mode    = 'plain'          ! Electron density mixing scheme
+    mixing_beta    = 0.4              ! Mixing parameter for SCF convergence
+    electron_maxstep = 100             ! Maximum number of SCF steps
 /
 &ions
-    ion_dynamics   = 'bfgs'
-    
+    ion_dynamics   = 'bfgs'           ! Optimization algorithm for ionic positions
 /
 ATOMIC_SPECIES
-Si  28.085  Si.pz-vbc.UPF
+Si  28.085  Si.pz-vbc.UPF            ! Atomic species, mass, and pseudopotential file
 
 ATOMIC_POSITIONS crystal
-Si  0.00  0.00  0.00
+Si  0.00  0.00  0.00                 ! Atomic positions in fractional (crystal) coordinates
 Si  0.25  0.25  0.25
 
 K_POINTS automatic
-12 12 12 0 0 0
+12 12 12 0 0 0                        ! Monkhorst-Pack k-point grid (12x12x12), no shift
+

@@ -1,59 +1,71 @@
-! =========================
-! si.win - Wannier90 input for Silicon, 12x12x12 k-grid
-! =========================
-! Optimized for Silicon calculation Done by QE
-! Based on band gap: 0.5264 eV
+! ========================================================
+! si.win - Wannier90 input for Silicon inspired by by the example provided at the wannier90 official repo, Adjusted for the results of the QE calculations
+! QE calculation on 12x12x12 k-grid
+! Optimized for Silicon; band gap = 0.5264 eV
 ! VBM = 6.0460 eV, CBM = 6.5724 eV
-! =========================
-! =========================
+! ========================================================
 
-num_bands        =   20
-num_iter         =  100
-dis_num_iter     =  100
+num_bands        = 20       ! Total number of bands included in NSCF calculation
+num_iter         = 100      ! Maximum iterations for Wannierization
+dis_num_iter     = 100      ! Maximum iterations for disentanglement
 
-iprint           =    2
-num_dump_cycles  =   10
-num_print_cycles =   10
+iprint           = 2        ! Level of printout (verbosity)
+num_dump_cycles  = 10       ! Number of dump cycles for debugging
+num_print_cycles = 10       ! Number of print cycles for monitoring
 
-length_unit      =  bohr
+length_unit      = bohr     ! Unit for coordinates in input
 
+! -----------------------
+! Define initial projections for Wannier functions
+! -----------------------
 begin projections
-!! Bond-centred s-orbitals
+!! Bond-centered s-orbitals
 f=-0.125,-0.125,0.375:s
 f=0.375,-0.125,-0.125:s
 f=-0.125,0.375,-0.125:s
 f=-0.125,-0.125,-0.125:s
-!! Atom-centred sp3-orbitals
+!! Atom-centered sp3 orbitals
 Si:sp3
 end projections
 
-write_hr = .true.
+write_hr = .true.             ! Write the Hamiltonian in the Wannier basis
 
-!! (2) Valence + conduction bands (optional)
- num_wann        =   8
- select_projections 5-12
- dis_froz_max    =   6.5
- dis_win_max     =  17.0
+! -----------------------
+! Specify valence + conduction bands for disentanglement
+! -----------------------
+num_wann          = 8         ! Number of Wannier functions to construct
+select_projections = 5-12     ! Which initial projections to use
+dis_froz_max      = 6.5       ! Frozen window (eV) for valence states
+dis_win_max       = 17.0      ! Outer energy window (eV) for disentanglement
 
+! -----------------------
+! Unit cell in Cartesian coordinates
+! -----------------------
 begin unit_cell_cart
- bohr
+bohr
 -5.13   0.00   5.13
- 0.00   5.13   5.13
+0.00    5.13   5.13
 -5.13   5.13   0.00
 end unit_cell_cart
 
+! -----------------------
+! Atomic positions in fractional coordinates
+! -----------------------
 begin atoms_frac
-Si 0.000000  0.000000  0.000000
-Si 0.250000  0.250000  0.250000
+Si 0.000000 0.000000 0.000000
+Si 0.250000 0.250000 0.250000
 end atoms_frac
 
+! -----------------------
+! Band structure interpolation settings
+! -----------------------
+bands_plot = true              ! Generate band structure plot
+bands_num_points = 200         ! Number of points along k-path
+bands_plot_format = gnuplot    ! Output format for plotting
 
-! Band structure interpolation
-bands_plot = true
-bands_num_points = 200
-bands_plot_format = gnuplot
-
-! k-point path for silicon (standard path)
+! -----------------------
+! Define high-symmetry k-point path for Silicon
+! -----------------------
 begin kpoint_path
 G 0.00 0.00 0.00  X 0.50 0.00 0.50
 X 0.50 0.00 0.50  W 0.50 0.25 0.75
@@ -67,9 +79,12 @@ L 0.50 0.50 0.50  K 0.38 0.38 0.75
 U 0.63 0.25 0.63  X 0.50 0.00 0.50
 end kpoint_path
 
-mp_grid= 12 12 12
+mp_grid = 12 12 12             ! Monkhorst-Pack k-point grid for interpolation
 
-begin kpoints
+! -----------------------
+! Additional k-points (dense grid for Wannierization)
+! -----------------------
+begin kpoints                    !providing the explicit list of kpoints,  NECESSARILY THE SAME AS THE ONE IN si.nscf.in
  0.00000000 0.00000000 0.00000000
  0.00000000 0.00000000 0.08333333
  0.00000000 0.00000000 0.16666667

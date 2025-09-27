@@ -1,24 +1,28 @@
 &param_chiqw
-/
+/ 
+! ---------------------------
+! Placeholder for chi(q,ω) calculation parameters
+! ---------------------------
 
 &param_wannier
-  icell = 2
-  N_wannier = 8                    ! Matches num_wann in si.win
-  Lower_energy_window = -5.0d0     ! Matches dis_froz_max (approx)
-  Upper_energy_window = 17.0d0     ! Matches dis_win_max
-  N_initial_guess = 8              ! Number of initial Gaussian guess orbitals
+  icell = 2                          ! Unit cell index
+  N_wannier = 8                      ! Number of Wannier functions (matches num_wann in si.win)
+  Lower_energy_window = -5.0d0       ! Approx. lower bound for frozen window
+  Upper_energy_window = 17.0d0       ! Approx. upper bound for disentanglement window
+  N_initial_guess = 8                ! Number of initial Gaussian guess orbitals
 /
-
-s   0.2d0  -0.125d0  -0.125d0  0.375d0   ! Bond-centred s-orbitals (copy from si.win projections)
-s   0.2d0   0.375d0  -0.125d0  -0.125d0
-s   0.2d0  -0.125d0   0.375d0  -0.125d0
-s   0.2d0  -0.125d0  -0.125d0  -0.125d0
-sp3 0.2d0   0.000d0   0.000d0   0.000d0   ! Atom-centred sp3 orbitals
+! Initial guess orbitals (bond- and atom-centered, copied from si.win)
+s    0.2d0  -0.125d0  -0.125d0  0.375d0
+s    0.2d0   0.375d0  -0.125d0 -0.125d0
+s    0.2d0  -0.125d0   0.375d0 -0.125d0
+s    0.2d0  -0.125d0  -0.125d0 -0.125d0
+sp3  0.2d0   0.000d0   0.000d0  0.000d0
 
 &param_interpolation
-  N_sym_points = 5
-  dense = 12 12 12
+  N_sym_points = 5                  ! Number of high-symmetry points for interpolation
+  dense = 12 12 12                  ! Dense k-mesh for interpolation
 /
+! High-symmetry k-points (example)
 0.50d0 0.50d0 0.50d0  ! L
 0.00d0 0.00d0 0.00d0  ! G
 0.50d0 0.00d0 0.50d0  ! X
@@ -26,8 +30,8 @@ sp3 0.2d0   0.000d0   0.000d0   0.000d0   ! Atom-centred sp3 orbitals
 0.50d0 0.50d0 0.50d0  ! L
 
 &param_visualization
-  flg_vis_wannier = 1
-  ix_vis_min = -1
+  flg_vis_wannier = 1                  ! Enable Wannier visualization
+  ix_vis_min = -1                       ! Visualization box limits
   ix_vis_max = 1
   iy_vis_min = -1
   iy_vis_max = 1
@@ -36,36 +40,37 @@ sp3 0.2d0   0.000d0   0.000d0   0.000d0   ! Atom-centred sp3 orbitals
 /
 
 &param_calc_int
-/
+/ 
+! Placeholder for interaction calculation
 
 &calc_mode
-condition = 'wannier'
-maxpath = 500
+  condition = 'wannier'                 ! Perform Wannier-based calculation
+  maxpath = 500                         ! Maximum path length in real-space calculation
 /
 
 &weight
-wannier = .true.
-wannier_file = 'si'
+  wannier = .true.                      ! Weighting for Wannier functions
+  wannier_file = 'si'                   ! Base name of Wannier file
 /
 
 &system
-  seedname = 'si'
-  nk = 12 12 12                    ! NO COMMAS - use spaces
-  num_val = 4
-  num_cond = 16
-  ngram = 1
-  latt = 'fcc'
-  alat = 10.26
-  dir_wfn = '/home/vboxuser/Stage\ Lyon/Si-Hamiltonian-with-QE-Wannier90-RESPACK-for-SDP/dir-wfn'
+  seedname = 'si'                        ! Base name for calculations
+  nk = 12 12 12                          ! k-mesh (spaces, no commas)
+  num_val = 4                            ! Number of valence bands
+  num_cond = 16                           ! Number of conduction bands
+  ngram = 1                               ! Real-space grid parameter
+  latt = 'fcc'                            ! Lattice type
+  alat = 10.26                             ! Lattice parameter (Bohr)
+  dir_wfn = '/home/vboxuser/.../dir-wfn'  ! Directory with wavefunction files
 /
 
 &chiqw
-  nq = 12 12 12                    ! NO COMMAS - use spaces
-  smearing = 'g'
-  wmax = 15.0
-  nw = 100
-  eps_0 = 1.0d-8
-  eta = 0.01
+  nq = 12 12 12                           ! q-point mesh
+  smearing = 'g'                          ! Smearing type
+  wmax = 15.0                             ! Maximum frequency
+  nw = 100                                ! Number of frequency points
+  eps_0 = 1.0d-8                          ! Small parameter for numerical stability
+  eta = 0.01                              ! Broadening for response function
 /
 
 &diele
@@ -76,19 +81,19 @@ wannier_file = 'si'
 /
 
 &wannier_interpol
-  kmesh = 12 12 12                 ! NO COMMAS - use spaces
-  r_mesh = 20 20 20
+  kmesh = 12 12 12                        ! k-mesh for Wannier interpolation
+  r_mesh = 20 20 20                        ! Real-space mesh for interactions
 /
 
 &coulomb
-  ivec_avg = 0
-  cut_bb = 10.0
-  cut_bw = 10.0
-  cut_ww = 10.0
-  nk_int = 24 24 24                ! NO COMMAS - use spaces
+  ivec_avg = 0                             ! Averaging scheme
+  cut_bb = 10.0                            ! Cutoff for bare-bare interaction
+  cut_bw = 10.0                            ! Cutoff for bare-Wannier interaction
+  cut_ww = 10.0                            ! Cutoff for Wannier-Wannier interaction
+  nk_int = 24 24 24                        ! k-mesh for interaction integration
 /
 
 &output
-verbosity = 'high'
+  verbosity = 'high'                       ! Detailed output
 /
 

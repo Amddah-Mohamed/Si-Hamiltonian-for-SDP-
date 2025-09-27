@@ -1,0 +1,6 @@
+&inputpp
+  prefix = 'si'         ! Prefix from SCF calculation
+  outdir = './tmp/'     ! Directory containing SCF output
+  filplot = 'si_rho'    ! Output file name
+  plot_num = 0          ! 0 = electron density
+/

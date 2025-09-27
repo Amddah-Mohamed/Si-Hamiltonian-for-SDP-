@@ -1,30 +1,37 @@
+! ========================================================
+! Self-consistent field (SCF) calculation for bulk silicon
+! ========================================================
+
 Silicon
- &control
-    calculation     =  'scf'
-    restart_mode    =  'from_scratch'
-    prefix          =  'si'
-    tprnfor         =  .true.
-    pseudo_dir      =  './pseudo/'
-    outdir          =  './tmp/'
-    verbosity       =  'high'
-    wf_collect	    = .true.
+&control
+    calculation     = 'scf'           ! Perform SCF calculation (compute ground-state electron density)
+    restart_mode    = 'from_scratch'  ! Start calculation from scratch (no previous results)
+    prefix          = 'si'            ! Prefix for output files
+    tprnfor         = .true.          ! Print forces on atoms (optional for SCF)
+    pseudo_dir      = './pseudo/'     ! Directory containing pseudopotential files
+    outdir          = './tmp/'        ! Directory for temporary files
+    verbosity       = 'high'          ! Detailed output
+    wf_collect      = .true.          ! Collect wavefunctions for post-processing
 /
- &system
-    ibrav           =   2
-    celldm(1)       =  10.26
-    nat             =   2
-    ntyp            =   1
-    ecutwfc         =  30.0
-    nbnd	    =  20
+&system
+    ibrav           = 2               ! Bravais lattice index (2 = FCC cubic)
+    celldm(1)       = 10.26           ! Lattice parameter in atomic units (Bohr)
+    nat             = 2               ! Number of atoms in the unit cell
+    ntyp            = 1               ! Number of atomic species
+    ecutwfc         = 30.0            ! Plane-wave cutoff for wavefunctions (Ry)
+    nbnd            = 20              ! Number of electronic bands
 /
- &electrons
-    conv_thr        =   1.0d-12
-    diagonalization =  'cg'
+&electrons
+    conv_thr        = 1.0d-12         ! Convergence threshold for SCF iteration
+    diagonalization = 'cg'            ! Conjugate gradient method for diagonalization
 /
 ATOMIC_SPECIES
- Si  28.085  Si.pz-vbc.UPF
+Si  28.085  Si.pz-vbc.UPF           ! Atomic species, mass, and pseudopotential file
+
 ATOMIC_POSITIONS {crystal}
-Si   0.00   0.00    0.00
-Si  0.25   0.25   0.25
+Si   0.00  0.00  0.00                ! Fractional coordinates of atoms in unit cell
+Si   0.25  0.25  0.25
+
 K_POINTS {automatic}
-12 12 12 0 0 0
+12 12 12 0 0 0                        ! Monkhorst-Pack k-point grid (12x12x12), no shift
+

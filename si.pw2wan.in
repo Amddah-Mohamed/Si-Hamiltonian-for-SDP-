@@ -1,8 +1,9 @@
 &inputpp
-   outdir = './tmp/'         
-   prefix = 'si'   
-   seedname = 'si'
-   write_mmn = .true.        
-   write_amn = .true.        
-   write_unk = .true.       
+   outdir    = './tmp/'       ! Directory containing SCF/NSCF outputs
+   prefix    = 'si'           ! Prefix of the calculation (matches QE input)
+   seedname  = 'si'           ! Base name for Wannier90 files
+   write_mmn = .true.         ! Write overlap matrix (.mmn) for Wannier90
+   write_amn = .true.         ! Write projections matrix (.amn) for Wannier90
+   write_unk = .true.         ! Write unitary transformation matrices (.unk) for Wannier90
 /
+

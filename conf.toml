@@ -3,13 +3,13 @@
 # -----------------------------
 
 [base]
-QE_output_dir = "./tmp/si.save"
-seedname = "si"
+QE_output_dir = "./tmp/si.save"  # QE outdir prefix.save
+seedname = "si"			 # seedname for Wannier90
 
 [pre.ref]
-nscf = "si.nscf.in"
-win = "si.win.ref"
+nscf = "si.nscf.in"		 # The reference file for the QE nscf calculation
+win = "si.win.ref"		 # The reference file for the input of Wannier90
 
 [pre.output]
-nscf = "si.nscf_wannier.in"
-win = "si.win"
+nscf = "si.nscf_wannier.in"      # The output file for the QE nscf calculation
+win = "si.win"			 # The output file for the input of Wannier90
