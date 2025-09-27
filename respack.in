@@ -1,0 +1,94 @@
+&param_chiqw
+/
+
+&param_wannier
+  icell = 2
+  N_wannier = 8                    ! Matches num_wann in si.win
+  Lower_energy_window = -5.0d0     ! Matches dis_froz_max (approx)
+  Upper_energy_window = 17.0d0     ! Matches dis_win_max
+  N_initial_guess = 8              ! Number of initial Gaussian guess orbitals
+/
+
+s   0.2d0  -0.125d0  -0.125d0  0.375d0   ! Bond-centred s-orbitals (copy from si.win projections)
+s   0.2d0   0.375d0  -0.125d0  -0.125d0
+s   0.2d0  -0.125d0   0.375d0  -0.125d0
+s   0.2d0  -0.125d0  -0.125d0  -0.125d0
+sp3 0.2d0   0.000d0   0.000d0   0.000d0   ! Atom-centred sp3 orbitals
+
+&param_interpolation
+  N_sym_points = 5
+  dense = 12 12 12
+/
+0.50d0 0.50d0 0.50d0  ! L
+0.00d0 0.00d0 0.00d0  ! G
+0.50d0 0.00d0 0.50d0  ! X
+0.50d0 0.25d0 0.75d0  ! W
+0.50d0 0.50d0 0.50d0  ! L
+
+&param_visualization
+  flg_vis_wannier = 1
+  ix_vis_min = -1
+  ix_vis_max = 1
+  iy_vis_min = -1
+  iy_vis_max = 1
+  iz_vis_min = -1
+  iz_vis_max = 1
+/
+
+&param_calc_int
+/
+
+&calc_mode
+condition = 'wannier'
+maxpath = 500
+/
+
+&weight
+wannier = .true.
+wannier_file = 'si'
+/
+
+&system
+  seedname = 'si'
+  nk = 12 12 12                    ! NO COMMAS - use spaces
+  num_val = 4
+  num_cond = 16
+  ngram = 1
+  latt = 'fcc'
+  alat = 10.26
+  dir_wfn = '/home/vboxuser/Stage\ Lyon/Si-Hamiltonian-with-QE-Wannier90-RESPACK-for-SDP/dir-wfn'
+/
+
+&chiqw
+  nq = 12 12 12                    ! NO COMMAS - use spaces
+  smearing = 'g'
+  wmax = 15.0
+  nw = 100
+  eps_0 = 1.0d-8
+  eta = 0.01
+/
+
+&diele
+  smearing = 'g'
+  wmax = 15.0
+  nw = 100
+  eps_0 = 1.0d-8
+/
+
+&wannier_interpol
+  kmesh = 12 12 12                 ! NO COMMAS - use spaces
+  r_mesh = 20 20 20
+/
+
+&coulomb
+  ivec_avg = 0
+  cut_bb = 10.0
+  cut_bw = 10.0
+  cut_ww = 10.0
+  nk_int = 24 24 24                ! NO COMMAS - use spaces
+/
+
+&output
+verbosity = 'high'
+/
+

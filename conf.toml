@@ -1,0 +1,15 @@
+# -----------------------------
+# System settings
+# -----------------------------
+
+[base]
+QE_output_dir = "./tmp/si.save"
+seedname = "si"
+
+[pre.ref]
+nscf = "si.nscf.in"
+win = "si.win.ref"
+
+[pre.output]
+nscf = "si.nscf_wannier.in"
+win = "si.win"
